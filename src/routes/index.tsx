@@ -8,7 +8,6 @@ import New from '../screens/New';
 import Profile from '../screens/Profile';
 import { Image } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import {Feather} from '@expo/vector-icons';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
