@@ -1,0 +1,7 @@
+# Define como os arquivos devem ser tratados em relação às terminações de linha
+
+# Força os arquivos de texto a usar LF
+* text=auto eol=lf
+
+# Tratar especificamente o arquivo eas.json
+eas.json text eol=lf

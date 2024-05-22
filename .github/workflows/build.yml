@@ -1,0 +1,53 @@
+name: Build and Deploy Expo App
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 14
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Install EAS CLI
+      run: npm install -g eas-cli
+
+    - name: Log in to Expo
+      env:
+        EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+      run: eas login --token $EXPO_TOKEN
+
+    - name: Decode Android Keystore
+      env:
+        EXPO_ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        EXPO_ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+        EXPO_ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+        EXPO_ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+      run: echo $EXPO_ANDROID_KEYSTORE_BASE64 | base64 --decode > keystore.jks
+
+    - name: Build Android
+      env:
+        EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        EXPO_ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+        EXPO_ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+        EXPO_ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+      run: eas build --platform android --non-interactive
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: android-build
+        path: dist/
