@@ -1,6 +1,7 @@
 import { useFonts, BebasNeue_400Regular } from '@expo-google-fonts/bebas-neue';
 import { Text, View, TouchableOpacity, Image } from 'react-native';
 import {styles} from '../styles/styles';
+import React from 'react';
 
 export default function Home({navigation}: {navigation: any}) {
   const [fontLoaded] = useFonts({

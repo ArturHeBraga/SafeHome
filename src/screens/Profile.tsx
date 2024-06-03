@@ -1,13 +1,11 @@
 // Profile.tsx
 import React, { useEffect, useState } from 'react';
 import { Text, View, ActivityIndicator } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { styles } from '../styles/styles';
 import { firestore, auth } from '../services/firebaseConfig'; // Importe auth e firestore do arquivo firebaseConfig.ts
 import { doc, getDoc } from 'firebase/firestore';
 
-const Profile = () => {
-  const navigation = useNavigation();
+const Profile = ({navigation}: {navigation: any}) => {
   const [userData, setUserData] = useState<any>(null); // Estado para armazenar os dados do usuário
   const [loading, setLoading] = useState(true); // Estado para controlar o carregamento dos dados
 

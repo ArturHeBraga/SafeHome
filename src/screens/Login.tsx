@@ -2,13 +2,11 @@
 
 import React, { useState } from 'react';
 import { Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { auth } from '../services/firebaseConfig'; // Certifique-se de importar corretamente o objeto auth do Firebase
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { styles } from '../styles/styles';
 
-const Login = () => {
-  const navigation = useNavigation();
+const Login = ({navigation}: {navigation: any}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 

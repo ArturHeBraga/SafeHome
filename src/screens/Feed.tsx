@@ -1,6 +1,7 @@
 import { useFonts, BebasNeue_400Regular } from '@expo-google-fonts/bebas-neue';
 import { Image, View, } from 'react-native';
 import {styles} from '../styles/styles';
+import React from 'react';
 
 export default function Feed() {
   const [fontLoaded] = useFonts({
