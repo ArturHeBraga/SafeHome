@@ -1,5 +1,5 @@
 import { useFonts, BebasNeue_400Regular } from '@expo-google-fonts/bebas-neue';
-import { Text, View, Button } from 'react-native';
+import { Text, View, Button, TextInput, TouchableOpacity } from 'react-native';
 import {styles} from '../styles/styles';
 
 export default function Cadastro({navigation}: {navigation: any}) {
@@ -11,7 +11,15 @@ export default function Cadastro({navigation}: {navigation: any}) {
   }
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Cadastro</Text>
+      <View style={styles.loginContainer}>
+        <Text style={styles.titleLogin}>Cadastro</Text>
+        <TextInput style={styles.inputLogin} placeholder="Nome" />
+        <TextInput style={styles.inputLogin} placeholder="Email" />
+        <TextInput style={styles.inputLogin} placeholder="Senha" />
+        <TouchableOpacity style={styles.buttonLogin} onPress={() => {navigation.navigate('Tab')}}>
+          <Text>Cadastrar</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   )
 }
