@@ -15,7 +15,7 @@ export default function Cadastro({ navigation }: { navigation: any }) {
 
   const handleCadastro = async () => {
     try {
-      const response = await axios.post('https://localhost:5000/user', {
+      const response = await axios.post('https://safehome-api.azurewebsites.net/swagger/index.html', {
         nome,
         email,
         senha,
