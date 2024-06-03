@@ -1,41 +1,29 @@
+// Cadastro.tsx
 import React, { useState } from 'react';
-import { useFonts, BebasNeue_400Regular } from '@expo-google-fonts/bebas-neue';
 import { Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
-import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
+import { auth } from '../services/firebaseConfig'; // Importe auth do arquivo firebaseConfig.ts
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { styles } from '../styles/styles';
+import {CadastroDados} from '../screens/CadastroDados'
 
-export default function Cadastro({ navigation }: { navigation: any }) {
-  const [fontLoaded] = useFonts({
-    BebasNeue_400Regular
-  });
-
-  const [nome, setNome] = useState('');
+const Cadastro = () => {
+  const navigation = useNavigation();
   const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
+  const [password, setPassword] = useState('');
 
-  const handleCadastro = async () => {
+  const handleSignUp = async () => {
     try {
-      const response = await axios.post('https://safehome-api.azurewebsites.net/swagger/index.html', {
-        nome,
-        email,
-        senha,
-      });
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
-      if (response.status === 201) {
-        Alert.alert('Sucesso', 'Cadastro realizado com sucesso!');
-        navigation.navigate('Tab');
-      } else {
-        Alert.alert('Erro', 'Houve um problema ao realizar o cadastro.');
-      }
+      // Após criar o usuário, navegue para a tela de cadastro de dados adicionais
+      navigation.navigate('CadastroDados', { email });
+
+      // Ou você pode adicionar mais informações ao Firestore aqui, se necessário
     } catch (error) {
-      console.error(error);
-      Alert.alert('Erro', 'Houve um problema ao realizar o cadastro.');
+      Alert.alert('Erro no cadastro', error.message);
     }
   };
-
-  if (!fontLoaded) {
-    return null;
-  }
 
   return (
     <View style={styles.container}>
@@ -43,27 +31,25 @@ export default function Cadastro({ navigation }: { navigation: any }) {
         <Text style={styles.titleLogin}>Cadastro</Text>
         <TextInput
           style={styles.inputLogin}
-          placeholder="Nome"
-          value={nome}
-          onChangeText={setNome}
-        />
-        <TextInput
-          style={styles.inputLogin}
           placeholder="Email"
           value={email}
           onChangeText={setEmail}
+          keyboardType="email-address"
+          autoCapitalize="none"
         />
         <TextInput
           style={styles.inputLogin}
           placeholder="Senha"
+          value={password}
+          onChangeText={setPassword}
           secureTextEntry
-          value={senha}
-          onChangeText={setSenha}
         />
-        <TouchableOpacity style={styles.buttonLogin} onPress={handleCadastro}>
+        <TouchableOpacity style={styles.buttonLogin} onPress={handleSignUp}>
           <Text>Cadastrar</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
-}
+};
+
+export default Cadastro;
